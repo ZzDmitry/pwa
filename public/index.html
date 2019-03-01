@@ -67,13 +67,13 @@
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           }, function(err) {
             // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
+            alert('ServiceWorker registration failed: ', err);
           }).catch(function(err) {
-            console.log(err)
+            alert(err)
           });
         });
       } else {
-        console.log('service worker is not supported');
+        alert('service worker is not supported');
       }
     </script>
   </body>
