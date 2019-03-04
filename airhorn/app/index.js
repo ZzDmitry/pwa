@@ -22,7 +22,6 @@ function loginUser(login, password) {
   return getUsers()
       .then(users => {
         const user = users.find(user => user.username === login);
-        console.log(111, user);
         if (!user) {
           return 404;
         }
