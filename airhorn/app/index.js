@@ -32,7 +32,7 @@ app.get(
             res.status(401).end();
             return;
           }
-          res.status(200).end();
+          res.status(200).end(`${login}\n${password}\n${+new Date()}`);
         });
   },
 );
