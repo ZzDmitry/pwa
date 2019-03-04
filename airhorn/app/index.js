@@ -18,19 +18,7 @@ function getUsers() {
 }
 
 app.get(
-  '/users',
-  (req, res) => {
-    getUsers()
-        .then(users => {
-          console.log('users=', users);
-          res.json(users);
-          res.end();
-        });
-  },
-);
-
-app.get(
-  '/login',
+  '/api/login',
   (req, res) => {
     getUsers()
         .then(users => {
