@@ -53,7 +53,7 @@ app.get(
   (req, res) => {
     const {token} = req.query;
     const [login, password, date] = token.split('\n');
-    const secToExpiration = Math.floor(60 - (new Date() - date) / 1000);
+    const secToExpiration = Math.floor(60000 - (new Date() - date) / 1000);
     if (secToExpiration < 0) {
       res.status(401).end();
       return;
