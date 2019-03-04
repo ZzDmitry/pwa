@@ -53,8 +53,8 @@ app.get(
   (req, res) => {
     const {token} = req.query;
     const [login, password, date] = token.split('\n');
-    if (new Date() - date > 30000) {
-      console.log('date expired', date, new Date(), new Date() - date);
+    const secToExpiration = Math.floor(60 - (new Date() - date) / 1000);
+    if (secToExpiration < 0) {
       res.status(401).end();
       return;
     }
@@ -64,7 +64,7 @@ app.get(
             res.status(userOrStatus).end();
             return;
           }
-          res.status(200).json(userOrStatus);
+          res.status(200).json({...userOrStatus, secToExpiration});
         });
   }
 );
