@@ -37,6 +37,6 @@ app.get(
   },
 );
 
-app.listen(8002, function () {
+app.listen(8002, () => {
   console.log('Example app listening on port 8002!');
 });
