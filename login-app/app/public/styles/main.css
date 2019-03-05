@@ -1,0 +1,8 @@
+#login-form, #userinfo-form {
+    padding: 10% 20% 0 20%;
+    font-size: 30px;
+}
+
+#login-form input, #userinfo-form input {
+    height: 30px;
+}
