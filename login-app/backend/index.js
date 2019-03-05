@@ -3,8 +3,6 @@ const fs = require('fs');
 
 const app = express();
 
-app.use(express.static('public'));
-
 function getUsers() {
   return new Promise((resolve, reject) => {
     fs.readFile('./users.json', 'utf8', (err, text) => {
@@ -33,7 +31,7 @@ function loginUser(login, password) {
 }
 
 app.get(
-  '/api/login',
+  '/login',
   (req, res) => {
     const {login, password} = req.query;
     loginUser(login, password)
@@ -48,7 +46,7 @@ app.get(
 );
 
 app.get(
-  '/api/userinfo',
+  '/userinfo',
   (req, res) => {
     const {token} = req.query;
     const [login, password, date] = token.split('\n');

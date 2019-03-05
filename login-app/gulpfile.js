@@ -161,6 +161,8 @@ gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], {dot: true})
 // Watch Files For Changes & Reload
 gulp.task('serve', ['styles'], function() {
   browserSync({
+    ui: null,
+    port: 8004,
     notify: false,
     // Customize the BrowserSync console logging prefix
     logPrefix: 'WSK',
