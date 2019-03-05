@@ -42,7 +42,11 @@
       <input title="password" id="password-input" type="password" name="password" />
       <br>
       <input id="login-button" type="submit" value="Login" />
-      <div id="login-result"></div>
+      <div id="login-result">
+          <span class="error-message not-registered">User not registered</span>
+          <span class="error-message wrong-password">Wrong password</span>
+          <span class="error-message unknown-error">Unknown error</span>
+      </div>
     </form>
     <form id="userinfo-form" style="display: none">
       User logged in
