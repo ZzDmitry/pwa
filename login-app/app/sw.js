@@ -26,7 +26,7 @@ self.addEventListener('install', e => {
         `/`,
         `/index.html`,
         `/styles/main.css`,
-        `/scripts/main.min.js`,
+        `/scripts/main.js`,
         `/scripts/comlink.global.js`,
         `/scripts/messagechanneladapter.global.js`,
         `/scripts/pwacompat.min.js`,

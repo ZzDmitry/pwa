@@ -1,5 +1,6 @@
-$(() => {
+/* global $ */
 
+$(() => {
   const API_PATH = 'https://nsk.execution.su:8446/pwa2/api/';
   const LS_TOKEN_KEY = 'token-pwa2';
 
@@ -23,16 +24,16 @@ $(() => {
       data: {
         token: localStorage.getItem(LS_TOKEN_KEY),
       },
-      success(userInfo) {
+      success(/* userInfo */) {
         showUserInfo();
       },
       error() {
         showLogin();
-      }
+      },
     });
   }
 
-  $('#login-button').click(evt => {
+  $('#login-button').click((evt) => {
     evt.preventDefault();
     $.ajax({
       url: `${API_PATH}login`,
@@ -46,23 +47,21 @@ $(() => {
         showUserInfoOrLogin();
       },
       error(res) {
+        $('#login-result .error-message').hide();
         if (res.status === 404) {
-          $('#login-result .error-message').hide();
           $('#login-result .not-registered').show();
           return;
         }
         if (res.status === 401) {
-          $('#login-result .error-message').hide();
           $('#login-result .wrong-password').show();
           return;
         }
-        $('#login-result .error-message').hide();
         $('#login-result .unknown-error').show();
-      }
+      },
     });
   });
 
-  $('#logout-button').click(evt => {
+  $('#logout-button').click((evt) => {
     evt.preventDefault();
     localStorage.setItem(LS_TOKEN_KEY, '');
     showLogin();
