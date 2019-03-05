@@ -73,13 +73,6 @@ gulp.task('fonts', function() {
     .pipe($.size({title: 'fonts'}));
 });
 
-// Copy Sounds To Dist
-gulp.task('sounds', function() {
-  return gulp.src(['app/sounds/**'])
-    .pipe(gulp.dest('dist/sounds'))
-    .pipe($.size({title: 'sounds'}));
-});
-
 gulp.task('well-known', function() {
   return gulp.src(['app/.well-known/**'])
     .pipe(gulp.dest('dist/.well-known/'))
@@ -195,7 +188,7 @@ gulp.task('serve:dist', ['default'], function() {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function(cb) {
-  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'sounds', 'copy', 'well-known', 'copy-workerscripts'], cb);
+  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], cb);
 });
 
 // Load custom tasks from the `tasks` directory
