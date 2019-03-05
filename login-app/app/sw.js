@@ -8,13 +8,13 @@ const cacheName = `login-app-${version}`;
 swSelf.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(cacheName).then(cache => cache.addAll([
-      '/',
-      '/index.html',
-      '/styles/main.css',
-      '/scripts/main.js',
-      '/scripts/comlink.global.js',
-      '/scripts/messagechanneladapter.global.js',
-      '/scripts/pwacompat.min.js',
+      './',
+      'index.html',
+      'styles/main.css',
+      'scripts/main.js',
+      'scripts/comlink.global.js',
+      'scripts/messagechanneladapter.global.js',
+      'scripts/pwacompat.min.js',
     ])
       .then(() => swSelf.skipWaiting())),
   );
