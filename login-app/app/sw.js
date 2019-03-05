@@ -3,8 +3,8 @@
 // eslint-disable-next-line no-undef,no-restricted-globals
 const swSelf = self;
 
-const version = '0.6.11';
-const cacheName = `airhorner-${version}`;
+const version = '0.6.12';
+const cacheName = `login-app-${version}`;
 swSelf.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(cacheName).then(cache => cache.addAll([
