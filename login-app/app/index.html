@@ -25,7 +25,7 @@
   <body>
     <div class="header">
       <span class="version">
-        v.0.6.55
+        v.0.6.57
       </span>
       <div id="update-available-reload" class="refresh" style="display: none;">
         <a href="#">New version available. Reload</a>
@@ -54,7 +54,7 @@
     <script src="scripts/main.js"></script>
     <script>
       if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js'/*, { scope: '/' }*/)
+        navigator.serviceWorker.register('sw.js', { scope: './' })
           .then(function(registration) {
                 console.log('Service Worker Registered');
           });
