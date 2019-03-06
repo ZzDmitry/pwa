@@ -75,3 +75,12 @@ $(() => {
 
   showUserInfoOrLogin();
 });
+
+navigator.serviceWorker.addEventListener(
+  'message',
+  (event) => {
+    if (event.data === 'reload-page') {
+      window.location.reload();
+    }
+  },
+);
