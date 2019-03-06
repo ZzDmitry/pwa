@@ -74,13 +74,17 @@ $(() => {
   });
 
   showUserInfoOrLogin();
+
+  $('#update-available-reload').click(() => {
+    window.location.reload();
+  });
 });
 
 navigator.serviceWorker.addEventListener(
   'message',
   (event) => {
     if (event.data === 'reload-page') {
-      window.location.reload();
+      $('#update-available-reload').show();
     }
   },
 );

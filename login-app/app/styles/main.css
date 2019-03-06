@@ -6,3 +6,7 @@
 #login-form input, #userinfo-form input {
     height: 30px;
 }
+
+.header .refresh {
+    float: right;
+}
