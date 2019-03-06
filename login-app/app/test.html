@@ -3,8 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * { margin:0; padding:0; } /* to remove the top and left whitespace */
+        html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+        canvas { display:block; } /* To remove the scrollbars */
+    </style>
 </head>
 <body>
-test page
+    1
+    <canvas id="canvas"></canvas>
 </body>
+<script>
+    const canvasEl = document.getElementById('canvas');
+    canvasEl.width = window.innerWidth;
+    canvasEl.height = window.innerHeight;
+    console.log('wh', canvasEl.width, canvasEl.height);
+    const ctx = canvasEl.getContext('2d');
+    ctx.fillStyle = 'cyan';
+    ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
+
+    document.body.addEventListener('mousemove', (evt) => {
+      ctx.fillStyle = "#999";
+      ctx.beginPath();
+      ctx.arc(evt.clientX, evt.clientY, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      console.log(evt);
+    });
+    document.body.addEventListener("touchstart", handleStart, false);
+    document.body.addEventListener("touchend", handleEnd, false);
+    document.body.addEventListener("touchcancel", handleCancel, false);
+    document.body.addEventListener("touchmove", handleMove, false);
+
+    function handleStart(evt) {
+      evt.preventDefault();
+    }
+    function handleEnd(evt) {
+      evt.preventDefault();
+    }
+    function handleCancel(evt) {
+      evt.preventDefault();
+    }
+    function handleMove(evt) {
+      evt.preventDefault();
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(evt.touches[0].pageX, evt.touches[0].pageY, 5, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+</script>
 </html>
