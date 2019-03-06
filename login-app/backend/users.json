@@ -14,5 +14,10 @@
     {
         "username": "4",
         "password": "4"
+    },
+    {
+        "username": "testpage",
+        "password": "123",
+        "homePageUrl": "test.html"
     }
 ]

@@ -24,8 +24,14 @@ $(() => {
       data: {
         token: localStorage.getItem(LS_TOKEN_KEY),
       },
-      success(/* userInfo */) {
+      success(userInfo) {
         showUserInfo();
+        const userHomePageUrl = userInfo.homePageUrl;
+        const $userHomePage = $('#user-home-page');
+        $userHomePage.toggle(!!userHomePageUrl);
+        if (userHomePageUrl) {
+          $userHomePage.attr('href', userHomePageUrl);
+        }
       },
       error() {
         showLogin();
