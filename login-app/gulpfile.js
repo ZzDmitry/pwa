@@ -1,3 +1,5 @@
+/* eslint-disable strict */
+
 'use strict';
 
 // Include Gulp & Tools We'll Use
