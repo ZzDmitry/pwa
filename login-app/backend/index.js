@@ -19,7 +19,7 @@ function loginUser(login, password) {
   console.log('loginuser', login, password);
   return getUsers()
     .then((users) => {
-      const user = users.find(user => user.username === login);
+      const user = users.find(registeredUser => registeredUser.username === login);
       if (!user) {
         return 404;
       }
