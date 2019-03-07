@@ -1,6 +1,6 @@
 {
-  "name": "The Air Horner",
-  "short_name": "Airhorner",
+  "name": "Login aplication",
+  "short_name": "LoginApp",
   "icons": [
       {
         "src": "images/touch/android-launchericon-48-48.png",
