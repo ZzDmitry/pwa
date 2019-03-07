@@ -13,60 +13,59 @@ const browserSync = require('browser-sync');
 const { reload } = browserSync;
 
 // Lint JavaScript
-gulp.task('jshint', function() {
-  return gulp.src(['app/scripts/**/*.js', 'app/styleguide/**/*.js'])
+gulp.task('jshint', () => (
+  gulp.src(['app/scripts/**/*.js', 'app/styleguide/**/*.js'])
     .pipe(reload({stream: true, once: true}))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
-});
+    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')))
+));
 
 // Optimize Images
-gulp.task('images', function() {
-  return gulp.src('app/images/**/*')
+gulp.task('images', () => (
+  gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
     })))
     .pipe(gulp.dest('dist/images'))
-    .pipe($.size({title: 'images'}));
-});
+    .pipe($.size({title: 'images'}))
+));
 
 // Copy All Files At The Root Level (app)
-gulp.task('copy', function() {
-  return gulp.src([
+gulp.task('copy', () => (
+  gulp.src([
     'app/*',
     '!app/*.html',
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'))
-    .pipe($.size({title: 'copy'}));
-});
+    .pipe($.size({title: 'copy'}))
+));
 
 // Copy All Filescopy-workerscripts At The Root Level (app)
-gulp.task('copy-workerscripts', function() {
-  return gulp.src('app/scripts/jsqrcode/*.js')
+gulp.task('copy-workerscripts', () => (
+  gulp.src('app/scripts/jsqrcode/*.js')
     .pipe(gulp.dest('dist/scripts/jsqrcode/'))
-    .pipe($.size({title: 'copy-workerscripts'}));
-});
+    .pipe($.size({title: 'copy-workerscripts'}))
+));
 
 // Copy Web Fonts To Dist
-gulp.task('fonts', function() {
-  return gulp.src(['app/fonts/**'])
+gulp.task('fonts', () => (
+  gulp.src(['app/fonts/**'])
     .pipe(gulp.dest('dist/fonts'))
-    .pipe($.size({title: 'fonts'}));
-});
+    .pipe($.size({title: 'fonts'}))
+));
 
-gulp.task('well-known', function() {
-  return gulp.src(['app/.well-known/**'])
+gulp.task('well-known', () => (
+  gulp.src(['app/.well-known/**'])
     .pipe(gulp.dest('dist/.well-known/'))
-    .pipe($.size({title: 'well-known'}));
-});
+    .pipe($.size({title: 'well-known'}))
+));
 
 // Compile and Automatically Prefix Stylesheets
-gulp.task('styles', function() {
-
+gulp.task('styles', () => {
   const AUTOPREFIXER_BROWSERS = [
     'ie >= 10',
     'ie_mob >= 10',
@@ -91,7 +90,7 @@ gulp.task('styles', function() {
 });
 
 // Concatenate And Minify JavaScript
-gulp.task('scripts', function() {
+gulp.task('scripts', () => {
   const sources = [
     'app/scripts/*.js'];
 
@@ -104,7 +103,7 @@ gulp.task('scripts', function() {
 });
 
 // Scan Your HTML For Assets & Optimize Them
-gulp.task('html', function() {
+gulp.task('html', () => {
   const assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
   return gulp.src('app/**/**/*.html')
@@ -137,7 +136,7 @@ gulp.task('html', function() {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles'], function() {
+gulp.task('serve', ['styles'], () => {
   browserSync({
     ui: null,
     port: 8004,
@@ -158,7 +157,7 @@ gulp.task('serve', ['styles'], function() {
 });
 
 // Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], function() {
+gulp.task('serve:dist', ['default'], () => {
   browserSync({
     notify: false,
     logPrefix: 'WSK',
@@ -172,7 +171,7 @@ gulp.task('serve:dist', ['default'], function() {
 });
 
 // Build Production Files, the Default Task
-gulp.task('default', ['clean'], function(cb) {
+gulp.task('default', ['clean'], (cb) => {
   runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], cb);
 });
 
