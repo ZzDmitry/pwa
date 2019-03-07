@@ -14,7 +14,6 @@ swSelf.addEventListener('install', (e) => {
       'index.html',
       'styles/main.css',
       'scripts/main.js',
-      'scripts/messagechanneladapter.global.js',
       'scripts/pwacompat.min.js',
     ])
       .then(() => swSelf.skipWaiting())),
