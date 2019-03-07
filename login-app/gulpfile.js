@@ -8,6 +8,8 @@ const $ = require('gulp-load-plugins')();
 const del = require('del');
 const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
+
+
 const reload = browserSync.reload;
 
 // Lint JavaScript
