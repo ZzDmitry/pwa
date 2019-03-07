@@ -10,7 +10,7 @@ const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
 
 
-const reload = browserSync.reload;
+const { reload } = browserSync;
 
 // Lint JavaScript
 gulp.task('jshint', function() {
