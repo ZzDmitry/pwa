@@ -26,7 +26,7 @@ gulp.task('images', () => (
   gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin({
       progressive: true,
-      interlaced: true
+      interlaced: true,
     })))
     .pipe(gulp.dest('dist/images'))
     .pipe($.size({ title: 'images' }))
@@ -37,9 +37,9 @@ gulp.task('copy', () => (
   gulp.src([
     'app/*',
     '!app/*.html',
-    'node_modules/apache-server-configs/dist/.htaccess'
+    'node_modules/apache-server-configs/dist/.htaccess',
   ], {
-    dot: true
+    dot: true,
   }).pipe(gulp.dest('dist'))
     .pipe($.size({ title: 'copy' }))
 ));
@@ -75,12 +75,12 @@ gulp.task('styles', () => {
     'opera >= 23',
     'ios >= 7',
     'android >= 4.4',
-    'bb >= 10'
+    'bb >= 10',
   ];
 
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
-    'app/styles/**/*.css'
+    'app/styles/**/*.css',
   ])
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     // Concatenate And Minify Styles
@@ -114,10 +114,10 @@ gulp.task('html', () => {
     .pipe($.if('*.css', $.uncss({
       html: [
         'app/index.html',
-        'app/styleguide.html'
+        'app/styleguide.html',
       ],
       // CSS Selectors for UnCSS to ignore
-      ignore: []
+      ignore: [],
     })))
 
     // Concatenate And Minify Styles
@@ -147,7 +147,7 @@ gulp.task('serve', ['styles'], () => {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: ['.tmp', 'app']
+    server: ['.tmp', 'app'],
   });
 
   gulp.watch(['app/**/**/**/*.html'], reload);
@@ -166,7 +166,7 @@ gulp.task('serve:dist', ['default'], () => {
     //       will present a certificate warning in the browser.
     // https: true,
     server: 'dist',
-    baseDir: "dist"
+    baseDir: "dist",
   });
 });
 
