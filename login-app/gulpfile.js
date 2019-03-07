@@ -95,8 +95,8 @@ gulp.task('scripts', () => {
     'app/scripts/*.js'];
 
   return gulp.src(sources)
-  //.pipe($.concat('main.min.js'))
-  //.pipe($.uglify({preserveComments: 'some'}))
+  // .pipe($.concat('main.min.js'))
+  // .pipe($.uglify({preserveComments: 'some'}))
   // Output Files
     .pipe(gulp.dest('dist/scripts'))
     .pipe($.size({ title: 'scripts' }));
