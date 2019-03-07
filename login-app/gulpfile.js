@@ -3,12 +3,12 @@
 'use strict';
 
 // Include Gulp & Tools We'll Use
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var del = require('del');
-var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const del = require('del');
+const runSequence = require('run-sequence');
+const browserSync = require('browser-sync');
+const reload = browserSync.reload;
 
 // Lint JavaScript
 gulp.task('jshint', function() {
@@ -65,7 +65,7 @@ gulp.task('well-known', function() {
 // Compile and Automatically Prefix Stylesheets
 gulp.task('styles', function() {
 
-  var AUTOPREFIXER_BROWSERS = [
+  const AUTOPREFIXER_BROWSERS = [
     'ie >= 10',
     'ie_mob >= 10',
     'ff >= 30',
@@ -90,7 +90,7 @@ gulp.task('styles', function() {
 
 // Concatenate And Minify JavaScript
 gulp.task('scripts', function() {
-  var sources = [
+  const sources = [
     'app/scripts/*.js'];
 
   return gulp.src(sources)
@@ -103,7 +103,7 @@ gulp.task('scripts', function() {
 
 // Scan Your HTML For Assets & Optimize Them
 gulp.task('html', function() {
-  var assets = $.useref.assets({searchPath: '{.tmp,app}'});
+  const assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
   return gulp.src('app/**/**/*.html')
     .pipe(assets)
