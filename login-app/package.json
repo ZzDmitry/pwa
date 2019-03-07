@@ -4,7 +4,6 @@
   "description": "A sample web app that lets you logging in.",
   "devDependencies": {
     "browser-sync": "2.24.4",
-    "comlinkjs": "2.4.1",
     "del": "1.2.1",
     "es6-promise": "3.3.1",
     "eslint": "4.19.1",
