@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* global $ */
 
 $(() => {
@@ -86,5 +87,5 @@ navigator.serviceWorker.addEventListener(
     if (event.data === 'reload-page') {
       $('#update-available-reload').show();
     }
-  },
+  }
 );
