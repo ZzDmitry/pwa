@@ -14,6 +14,7 @@ const fs = require('fs');
 
 
 function getConfig() {
+  console.log('get config...');
   return JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 }
 
@@ -169,25 +170,28 @@ gulp.task('html', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], { dot: true }));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], () => {
-  browserSync({
-    ui: null,
-    port: 8004,
-    notify: false,
-    // Customize the BrowserSync console logging prefix
-    logPrefix: 'WSK',
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: ['.tmp', 'dist'],
-  });
+gulp.task('serve', () => {
+  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], 'copy-sw', () => {
+    browserSync({
+      ui: null,
+      port: 8004,
+      notify: false,
+      // Customize the BrowserSync console logging prefix
+      logPrefix: 'WSK',
+      // Run as an https by uncommenting 'https: true'
+      // Note: this uses an unsigned certificate which on first access
+      //       will present a certificate warning in the browser.
+      // https: true,
+      server: ['.tmp', 'dist'],
+    });
 
-  gulp.watch(['app/**/**/**/*.html'], reload);
-  gulp.watch(['app/**/**/**/*.js'], ['scripts', reload]);
-  gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
-  gulp.watch(['app/images/**/*'], reload);
+    gulp.watch(['app/**/**/**/*.html'], reload);
+    gulp.watch(['app/**/**/**/*.js'], ['scripts', reload]);
+    gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
+    gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
+    gulp.watch(['app/images/**/*'], reload);
+    gulp.watch(['./config.json'], ['html', 'scripts', 'copy-sw', reload]);
+  });
 });
 
 // Build and serve the output from the dist build
