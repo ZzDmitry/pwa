@@ -125,7 +125,7 @@ gulp.task('scripts', () => {
 gulp.task('html', () => {
   const assets = $.useref.assets({ searchPath: '{.tmp,app}' });
 
-  return gulp.src('app/**/**/*.html')
+  return gulp.src('app/**/*.html')
     .pipe(htmlreplace({
       version: getConfig().VERSION,
     }))
@@ -172,9 +172,9 @@ gulp.task('serve', ['default'], () => {
     server: ['.tmp', 'dist'],
   });
 
-  gulp.watch(['app/**/**/**/*.html'], reload);
-  gulp.watch(['app/**/**/**/*.js'], ['scripts', reload]);
-  gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
+  gulp.watch(['app/**/*.html'], reload);
+  gulp.watch(['app/**/*.js'], ['scripts', reload]);
+  gulp.watch(['app/**/*.{scss,css}'], ['styles', reload]);
   gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);
   gulp.watch([CONFIG_FILEPATH], ['html', 'scripts', 'copy-sw', reload]);
