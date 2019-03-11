@@ -5,12 +5,26 @@
 // Include Gulp & Tools We'll Use
 const gulp = require('gulp');
 const replace = require('gulp-replace-task');
+const htmlreplace = require('gulp-html-replace');
 const $ = require('gulp-load-plugins')();
 const del = require('del');
 const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
 
 const config = require('./config.json');
+
+
+function makeConfigReplace() {
+  return replace({
+    patterns: [
+      {
+        json: {
+          CONFIG: config,
+        },
+      },
+    ],
+  });
+}
 
 
 const { reload } = browserSync;
@@ -45,6 +59,15 @@ gulp.task('copy', () => (
     dot: true,
   }).pipe(gulp.dest('dist'))
     .pipe($.size({ title: 'copy' }))
+));
+
+gulp.task('copy-sw', () => (
+  gulp.src([
+    'app/sw.js',
+  ])
+    .pipe(makeConfigReplace())
+    .pipe(gulp.dest('dist'))
+    .pipe($.size({ title: 'scripts' }))
 ));
 
 // Copy All Filescopy-workerscripts At The Root Level (app)
@@ -101,15 +124,7 @@ gulp.task('scripts', () => {
   // .pipe($.concat('main.min.js'))
   // .pipe($.uglify({preserveComments: 'some'}))
   // Output Files
-    .pipe(replace({
-      patterns: [
-        {
-          json: {
-            CONFIG: config,
-          },
-        },
-      ],
-    }))
+    .pipe(makeConfigReplace())
     .pipe(gulp.dest('dist/scripts'))
     .pipe($.size({ title: 'scripts' }));
 });
@@ -119,6 +134,9 @@ gulp.task('html', () => {
   const assets = $.useref.assets({ searchPath: '{.tmp,app}' });
 
   return gulp.src('app/**/**/*.html')
+    .pipe(htmlreplace({
+      version: config.VERSION,
+    }))
     .pipe(assets)
     // Remove Any Unused CSS
     // Note: If not using the Style Guide, you can delete it from
@@ -185,7 +203,7 @@ gulp.task('serve:dist', ['default'], () => {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], (cb) => {
-  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], cb);
+  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], 'copy-sw', cb);
 });
 
 // Load custom tasks from the `tasks` directory
