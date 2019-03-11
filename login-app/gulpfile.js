@@ -75,13 +75,6 @@ gulp.task('copy-sw', () => (
     .pipe($.size({ title: 'scripts' }))
 ));
 
-// Copy All Filescopy-workerscripts At The Root Level (app)
-gulp.task('copy-workerscripts', () => (
-  gulp.src('app/scripts/jsqrcode/*.js')
-    .pipe(gulp.dest('dist/scripts/jsqrcode/'))
-    .pipe($.size({ title: 'copy-workerscripts' }))
-));
-
 // Copy Web Fonts To Dist
 gulp.task('fonts', () => (
   gulp.src(['app/fonts/**'])
@@ -209,7 +202,7 @@ gulp.task('serve:dist', ['default'], () => {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], (cb) => {
-  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], 'copy-sw', cb);
+  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known'], 'copy-sw', cb);
 });
 
 // Load custom tasks from the `tasks` directory

@@ -31,5 +31,4 @@ handlers:
 skip_files:
 - ^.tmp/.*
 - ^app/.*
-- ^jsqrcode/.*
 - ^node_modules/.*
