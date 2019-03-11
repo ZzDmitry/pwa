@@ -10,16 +10,19 @@ const $ = require('gulp-load-plugins')();
 const del = require('del');
 const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
+const fs = require('fs');
 
-const config = require('./config.json');
 
+function getConfig() {
+  return JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+}
 
 function makeConfigReplace() {
   return replace({
     patterns: [
       {
         json: {
-          CONFIG: config,
+          CONFIG: getConfig(),
         },
       },
     ],
@@ -135,7 +138,7 @@ gulp.task('html', () => {
 
   return gulp.src('app/**/**/*.html')
     .pipe(htmlreplace({
-      version: config.VERSION,
+      version: getConfig().VERSION,
     }))
     .pipe(assets)
     // Remove Any Unused CSS
