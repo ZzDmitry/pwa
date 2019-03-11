@@ -5,11 +5,11 @@
 const swSelf = self;
 
 const version = '@@CONFIG.VERSION';
-const cacheName = `login-app-${version}`;
+const currentCacheName = `login-app-${version}`;
 swSelf.addEventListener('install', (e) => {
   console.log('SW_install');
   e.waitUntil(
-    caches.open(cacheName).then(cache => cache.addAll([
+    caches.open(currentCacheName).then(cache => cache.addAll([
       './',
       'index.html',
       'styles/main.css',
@@ -22,6 +22,15 @@ swSelf.addEventListener('install', (e) => {
 
 swSelf.addEventListener('activate', (event) => {
   console.log('SW_active');
+  event.waitUntil(
+    caches.keys().then(cacheNames => (
+      Promise.all(
+        cacheNames
+          .filter(cacheName => cacheName !== currentCacheName)
+          .map(cacheName => caches.delete(cacheName)),
+      )
+    )),
+  );
   event.waitUntil(swSelf.clients.claim());
   swSelf.clients.matchAll().then((clients) => {
     clients.forEach((client) => {
@@ -33,7 +42,7 @@ swSelf.addEventListener('activate', (event) => {
 swSelf.addEventListener('fetch', (event) => {
   console.log('SW_fetch');
   event.respondWith(
-    caches.open(cacheName)
+    caches.open(currentCacheName)
       .then(cache => cache.match(event.request, { ignoreSearch: true }))
       .then(response => response || fetch(event.request)),
   );
