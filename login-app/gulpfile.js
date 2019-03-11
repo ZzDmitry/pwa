@@ -36,7 +36,7 @@ const { reload } = browserSync;
 
 // Lint JavaScript
 gulp.task('jshint', () => (
-  gulp.src(['app/scripts/**/*.js', 'app/styleguide/**/*.js'])
+  gulp.src(['app/scripts/**/*.js'])
     .pipe(reload({ stream: true, once: true }))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
@@ -136,7 +136,6 @@ gulp.task('html', () => {
     .pipe($.if('*.css', $.uncss({
       html: [
         'app/index.html',
-        'app/styleguide.html',
       ],
       // CSS Selectors for UnCSS to ignore
       ignore: [],
@@ -175,7 +174,7 @@ gulp.task('serve', ['default'], () => {
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/**/*.js'], ['scripts', reload]);
   gulp.watch(['app/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
+  gulp.watch(['app/scripts/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);
   gulp.watch([CONFIG_FILEPATH], ['html', 'scripts', 'copy-sw', reload]);
 });
