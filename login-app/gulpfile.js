@@ -82,12 +82,6 @@ gulp.task('fonts', () => (
     .pipe($.size({ title: 'fonts' }))
 ));
 
-gulp.task('well-known', () => (
-  gulp.src(['app/.well-known/**'])
-    .pipe(gulp.dest('dist/.well-known/'))
-    .pipe($.size({ title: 'well-known' }))
-));
-
 // Compile and Automatically Prefix Stylesheets
 gulp.task('styles', () => {
   const AUTOPREFIXER_BROWSERS = [
@@ -202,7 +196,7 @@ gulp.task('serve:dist', ['default'], () => {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], (cb) => {
-  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known'], 'copy-sw', cb);
+  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy'], 'copy-sw', cb);
 });
 
 // Load custom tasks from the `tasks` directory
