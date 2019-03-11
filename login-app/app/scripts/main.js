@@ -2,7 +2,7 @@
 /* global $ */
 
 $(() => {
-  const API_PATH = '@@APP_URL';
+  const API_PATH = '@@CONFIG.APP_URL';
   const LS_TOKEN_KEY = 'token-pwa2';
 
   $('#login-form').hide();

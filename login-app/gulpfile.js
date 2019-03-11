@@ -104,8 +104,9 @@ gulp.task('scripts', () => {
     .pipe(replace({
       patterns: [
         {
-          match: 'APP_URL',
-          replacement: config.APP_URL,
+          json: {
+            CONFIG: config,
+          },
         },
       ],
     }))
