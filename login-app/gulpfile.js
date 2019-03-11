@@ -171,28 +171,26 @@ gulp.task('html', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], { dot: true }));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', () => {
-  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], 'copy-sw', () => {
-    browserSync({
-      ui: null,
-      port: 8004,
-      notify: false,
-      // Customize the BrowserSync console logging prefix
-      logPrefix: 'WSK',
-      // Run as an https by uncommenting 'https: true'
-      // Note: this uses an unsigned certificate which on first access
-      //       will present a certificate warning in the browser.
-      // https: true,
-      server: ['.tmp', 'dist'],
-    });
-
-    gulp.watch(['app/**/**/**/*.html'], reload);
-    gulp.watch(['app/**/**/**/*.js'], ['scripts', reload]);
-    gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
-    gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
-    gulp.watch(['app/images/**/*'], reload);
-    gulp.watch([CONFIG_FILEPATH], ['html', 'scripts', 'copy-sw', reload]);
+gulp.task('serve', ['default'], () => {
+  browserSync({
+    ui: null,
+    port: 8004,
+    notify: false,
+    // Customize the BrowserSync console logging prefix
+    logPrefix: 'WSK',
+    // Run as an https by uncommenting 'https: true'
+    // Note: this uses an unsigned certificate which on first access
+    //       will present a certificate warning in the browser.
+    // https: true,
+    server: ['.tmp', 'dist'],
   });
+
+  gulp.watch(['app/**/**/**/*.html'], reload);
+  gulp.watch(['app/**/**/**/*.js'], ['scripts', reload]);
+  gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
+  gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
+  gulp.watch(['app/images/**/*'], reload);
+  gulp.watch([CONFIG_FILEPATH], ['html', 'scripts', 'copy-sw', reload]);
 });
 
 // Build and serve the output from the dist build
