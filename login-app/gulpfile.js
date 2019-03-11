@@ -13,8 +13,11 @@ const browserSync = require('browser-sync');
 const fs = require('fs');
 
 
+const CONFIG_FILEPATH = './config.json';
+
+
 function getConfig() {
-  return JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+  return JSON.parse(fs.readFileSync(CONFIG_FILEPATH, 'utf8'));
 }
 
 function makeConfigReplace() {
@@ -188,7 +191,7 @@ gulp.task('serve', () => {
     gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
     gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
     gulp.watch(['app/images/**/*'], reload);
-    gulp.watch(['./config.json'], ['html', 'scripts', 'copy-sw', reload]);
+    gulp.watch([CONFIG_FILEPATH], ['html', 'scripts', 'copy-sw', reload]);
   });
 });
 
