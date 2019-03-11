@@ -123,7 +123,7 @@ gulp.task('scripts', () => {
 
 // Scan Your HTML For Assets & Optimize Them
 gulp.task('html', () => {
-  const assets = $.useref.assets({ searchPath: '{.tmp,app}' });
+  const assets = $.useref.assets({ searchPath: '{app}' });
 
   return gulp.src('app/**/*.html')
     .pipe(htmlreplace({
@@ -154,7 +154,7 @@ gulp.task('html', () => {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], { dot: true }));
+gulp.task('clean', del.bind(null, ['dist/*', '!dist/.git'], { dot: true }));
 
 // Watch Files For Changes & Reload
 gulp.task('serve', ['default'], () => {
@@ -168,7 +168,7 @@ gulp.task('serve', ['default'], () => {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: ['.tmp', 'dist'],
+    server: ['dist'],
   });
 
   gulp.watch(['app/**/*.html'], reload);
