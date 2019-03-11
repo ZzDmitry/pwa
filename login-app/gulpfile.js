@@ -4,10 +4,13 @@
 
 // Include Gulp & Tools We'll Use
 const gulp = require('gulp');
+const replace = require('gulp-replace-task');
 const $ = require('gulp-load-plugins')();
 const del = require('del');
 const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
+
+const config = require('./config.json');
 
 
 const { reload } = browserSync;
@@ -98,6 +101,14 @@ gulp.task('scripts', () => {
   // .pipe($.concat('main.min.js'))
   // .pipe($.uglify({preserveComments: 'some'}))
   // Output Files
+    .pipe(replace({
+      patterns: [
+        {
+          match: 'APP_URL',
+          replacement: config.APP_URL,
+        },
+      ],
+    }))
     .pipe(gulp.dest('dist/scripts'))
     .pipe($.size({ title: 'scripts' }));
 });
@@ -136,7 +147,7 @@ gulp.task('html', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], { dot: true }));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles'], () => {
+gulp.task('serve', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy', 'well-known', 'copy-workerscripts'], () => {
   browserSync({
     ui: null,
     port: 8004,
@@ -147,10 +158,11 @@ gulp.task('serve', ['styles'], () => {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: ['.tmp', 'app'],
+    server: ['.tmp', 'dist'],
   });
 
   gulp.watch(['app/**/**/**/*.html'], reload);
+  gulp.watch(['app/**/**/**/*.js'], ['scripts', reload]);
   gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
   gulp.watch(['app/scripts/**/*.js', 'app/styleguide/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);

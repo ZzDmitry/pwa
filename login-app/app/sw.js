@@ -4,7 +4,7 @@
 // eslint-disable-next-line no-undef,no-restricted-globals
 const swSelf = self;
 
-const version = '0.6.60';
+const version = '0.6.61';
 const cacheName = `login-app-${version}`;
 swSelf.addEventListener('install', (e) => {
   console.log('SW_install');

@@ -2,7 +2,7 @@
 /* global $ */
 
 $(() => {
-  const API_PATH = 'https://nsk.execution.su:8446/pwa2/api/';
+  const API_PATH = '@@APP_URL';
   const LS_TOKEN_KEY = 'token-pwa2';
 
   $('#login-form').hide();
