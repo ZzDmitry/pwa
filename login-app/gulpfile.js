@@ -8,7 +8,6 @@ const replace = require('gulp-replace-task');
 const htmlreplace = require('gulp-html-replace');
 const $ = require('gulp-load-plugins')();
 const del = require('del');
-const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
 const useref = require('gulp-useref');
 const fs = require('fs');
