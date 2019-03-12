@@ -10,6 +10,7 @@ const $ = require('gulp-load-plugins')();
 const del = require('del');
 const runSequence = require('run-sequence');
 const browserSync = require('browser-sync');
+const useref = require('gulp-useref');
 const fs = require('fs');
 
 
@@ -59,7 +60,7 @@ gulp.task('copy', () => (
   gulp.src([
     'app/*',
     '!app/*.html',
-    'node_modules/apache-server-configs/dist/.htaccess',
+    // 'node_modules/apache-server-configs/dist/.htaccess',
   ], {
     dot: true,
   }).pipe(gulp.dest('dist'))
@@ -123,29 +124,29 @@ gulp.task('scripts', () => {
 
 // Scan Your HTML For Assets & Optimize Them
 gulp.task('html', () => {
-  const assets = $.useref.assets({ searchPath: '{app}' });
+  // const assets = $.useref.assets({ searchPath: '{app}' });
 
   return gulp.src('app/**/*.html')
     .pipe(htmlreplace({
       version: getConfig().VERSION,
     }))
-    .pipe(assets)
+    .pipe(useref({ searchPath: '{app}'}))
     // Remove Any Unused CSS
     // Note: If not using the Style Guide, you can delete it from
     // the next line to only include styles your project uses.
-    .pipe($.if('*.css', $.uncss({
-      html: [
-        'app/index.html',
-      ],
-      // CSS Selectors for UnCSS to ignore
-      ignore: [],
-    })))
+    // .pipe($.if('*.css', uncss({
+    //   html: [
+    //     'app/index.html',
+    //   ],
+    //   // CSS Selectors for UnCSS to ignore
+    //   ignore: [],
+    // })))
 
     // Concatenate And Minify Styles
     // In case you are still using useref build blocks
     .pipe($.if('*.css', $.csso()))
-    .pipe(assets.restore())
-    .pipe($.useref())
+    //.pipe(useref().restore())
+    .pipe(useref())
     // Minify Any HTML
     .pipe($.if('*.html', $.minifyHtml()))
     // Output Files
@@ -156,8 +157,18 @@ gulp.task('html', () => {
 // Clean Output Directory
 gulp.task('clean', del.bind(null, ['dist/*', '!dist/.git'], { dot: true }));
 
+// Build Production Files, the Default Task
+gulp.task('default',
+  gulp.series(
+    'clean',
+    'styles',
+    gulp.parallel('html', 'scripts', 'styles', 'images', 'fonts', 'copy'),
+    'copy-sw',
+  )
+);
+
 // Watch Files For Changes & Reload
-gulp.task('serve', ['default'], () => {
+gulp.task('serve', gulp.series('default', () => {
   browserSync({
     ui: null,
     port: 8004,
@@ -171,17 +182,17 @@ gulp.task('serve', ['default'], () => {
     server: ['dist'],
   });
 
-  gulp.watch(['app/**/*.html'], reload);
-  gulp.watch(['app/**/*.js'], ['scripts', reload]);
-  gulp.watch(['app/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js'], ['jshint']);
-  gulp.watch(['app/images/**/*'], reload);
-  gulp.watch(['app/sw.js'], ['copy-sw', reload]);
-  gulp.watch([CONFIG_FILEPATH], ['html', 'scripts', 'copy-sw', reload]);
-});
+  gulp.watch(['app/**/*.html'], gulp.series(reload));
+  gulp.watch(['app/**/*.js'], gulp.series('scripts', reload));
+  gulp.watch(['app/**/*.{scss,css}'], gulp.series('styles', reload));
+  gulp.watch(['app/scripts/**/*.js'], gulp.series('jshint'));
+  gulp.watch(['app/images/**/*'], gulp.series(reload));
+  gulp.watch(['app/sw.js'], gulp.series('copy-sw', reload));
+  gulp.watch([CONFIG_FILEPATH], gulp.series('html', 'scripts', 'copy-sw', reload));
+}));
 
 // Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], () => {
+gulp.task('serve:dist', gulp.series('default', () => {
   browserSync({
     notify: false,
     logPrefix: 'WSK',
@@ -192,12 +203,7 @@ gulp.task('serve:dist', ['default'], () => {
     server: 'dist',
     baseDir: 'dist',
   });
-});
-
-// Build Production Files, the Default Task
-gulp.task('default', ['clean'], (cb) => {
-  runSequence('styles', ['html', 'scripts', 'styles', 'images', 'fonts', 'copy'], 'copy-sw', cb);
-});
+}));
 
 // Load custom tasks from the `tasks` directory
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }
