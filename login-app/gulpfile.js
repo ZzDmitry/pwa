@@ -122,14 +122,12 @@ gulp.task('scripts', () => {
 });
 
 // Scan Your HTML For Assets & Optimize Them
-gulp.task('html', () => {
-  // const assets = $.useref.assets({ searchPath: '{app}' });
-
-  return gulp.src('app/**/*.html')
+gulp.task('html', () => (
+  gulp.src('app/**/*.html')
     .pipe(htmlreplace({
       version: getConfig().VERSION,
     }))
-    .pipe(useref({ searchPath: '{app}'}))
+    .pipe(useref({ searchPath: '{app}' }))
     // Remove Any Unused CSS
     // Note: If not using the Style Guide, you can delete it from
     // the next line to only include styles your project uses.
@@ -144,14 +142,13 @@ gulp.task('html', () => {
     // Concatenate And Minify Styles
     // In case you are still using useref build blocks
     .pipe($.if('*.css', $.csso()))
-    //.pipe(useref().restore())
     .pipe(useref())
     // Minify Any HTML
     .pipe($.if('*.html', $.minifyHtml()))
     // Output Files
     .pipe(gulp.dest('dist'))
-    .pipe($.size({ title: 'html' }));
-});
+    .pipe($.size({ title: 'html' }))
+));
 
 // Clean Output Directory
 gulp.task('clean', del.bind(null, ['dist/*', '!dist/.git'], { dot: true }));
@@ -163,8 +160,7 @@ gulp.task('default',
     'styles',
     gulp.parallel('html', 'scripts', 'styles', 'images', 'fonts', 'copy'),
     'copy-sw',
-  )
-);
+  ));
 
 // Watch Files For Changes & Reload
 gulp.task('serve', gulp.series('default', () => {
