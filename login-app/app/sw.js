@@ -43,7 +43,16 @@ swSelf.addEventListener('fetch', (event) => {
   console.log('SW_fetch');
   event.respondWith(
     caches.open(currentCacheName)
-      .then(cache => cache.match(event.request, { ignoreSearch: true }))
-      .then(response => response || fetch(event.request)),
+      .then(cache => Promise.all([cache, cache.match(event.request, { ignoreSearch: false })]))
+      .then(([cache, cachedResponse]) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return fetch(event.request)
+          .then((fetchedResponse) => {
+            cache.put(event.request, fetchedResponse.clone());
+            return fetchedResponse;
+          });
+      }),
   );
 });
