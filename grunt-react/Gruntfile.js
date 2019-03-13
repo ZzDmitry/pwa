@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     babel: {
       options: {
         sourceMap: false,
-        presets: ['env', 'react'],
+        presets: ['@babel/preset-env', '@babel/preset-react'],
         plugins: ['transform-es2015-modules-amd']
       },
       dist: {
