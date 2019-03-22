@@ -155,7 +155,20 @@ gulp.task('html', () => {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['dist/*', '!dist/.git'], { dot: true }));
+gulp.task('clean', () => {
+  console.log('del...');
+  return del.bind(null, ['dist/*'], { dot: true })().then(() => {
+    console.log('deleted');
+
+    fs.readdir('./dist', (err, files) => {
+      console.log('err', err, files);
+      files && files.forEach(file => {
+        console.log('file:', file);
+      });
+    });
+
+  });
+});
 
 // Build Production Files, the Default Task
 gulp.task('default',
@@ -183,12 +196,12 @@ gulp.task('serve', gulp.series('default', () => {
   });
 
   gulp.watch(['app/**/*.html'], gulp.series(reload));
-  gulp.watch(['app/**/*.js'], gulp.series('scripts', reload));
-  gulp.watch(['app/**/*.{scss,css}'], gulp.series('styles', reload));
+  gulp.watch(['app/**/*.js'], gulp.series('scripts'));
+  gulp.watch(['app/**/*.{scss,css}'], gulp.series('styles'));
   gulp.watch(['app/scripts/**/*.js'], gulp.series('jshint'));
   gulp.watch(['app/images/**/*'], gulp.series(reload));
-  gulp.watch(['app/sw.js'], gulp.series('copy-sw', reload));
-  gulp.watch([CONFIG_FILEPATH], gulp.series('html', 'scripts', 'copy-sw', reload));
+  gulp.watch(['app/sw.js'], gulp.series('copy-sw'));
+  gulp.watch([CONFIG_FILEPATH], gulp.series('html', 'scripts', 'copy-sw'));
 }));
 
 // Build and serve the output from the dist build

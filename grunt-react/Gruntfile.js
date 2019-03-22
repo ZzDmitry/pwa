@@ -16,8 +16,21 @@ module.exports = function (grunt) {
           ext: '.js'
         }]
       }
-    }
+    },
+    browserify: {
+      dev: {
+        files: {
+          'build/app.js': ['src/index.js']
+        },
+        options: {
+          transform: [
+            'babelify', 'reactify'
+          ]
+        },
+      }
+    },
   });
   grunt.loadNpmTasks('grunt-babel');
-  grunt.registerTask('default', ['babel']);
+  grunt.loadNpmTasks('grunt-browserify');
+  grunt.registerTask('default', ['browserify']);
 };
