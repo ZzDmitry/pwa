@@ -12,7 +12,7 @@ swSelf.addEventListener('install', (e) => {
     caches.open(currentCacheName).then(cache => cache.addAll([
       './',
       'index.html',
-      'styles/main.css',
+      'styles/bundle.min.css',
       'scripts/main.js',
       'scripts/pwacompat.min.js',
     ])
@@ -28,14 +28,12 @@ swSelf.addEventListener('activate', (event) => {
         cacheNames
           .filter(cacheName => cacheName !== currentCacheName)
           .map(cacheName => caches.delete(cacheName)),
-      )
+      ).then(() => clients.claim())
     )),
   );
-  event.waitUntil(swSelf.clients.claim());
+
   swSelf.clients.matchAll().then((clients) => {
-    clients.forEach((client) => {
-      client.postMessage('reload-page');
-    });
+    clients.forEach(client => client.postMessage('reload-page'));
   });
 });
 
@@ -50,7 +48,9 @@ swSelf.addEventListener('fetch', (event) => {
         }
         return fetch(event.request)
           .then((fetchedResponse) => {
-            cache.put(event.request, fetchedResponse.clone());
+            if (event.request.method !== 'POST') {
+              cache.put(event.request, fetchedResponse.clone());
+            }
             return fetchedResponse;
           });
       }),
